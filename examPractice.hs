@@ -124,3 +124,46 @@ The merge function ensures that the sequence remains sorted and eliminates dupli
 -}
 
 -}
+
+
+
+{-
+--The Sieve of Eratosthenes Algorithm. 
+
+{- 
+The Sieve of Eratosthenes is an ancient algorithm for finding all prime numbers up to a given limit.
+It works as:
+    1. Start with a list of integers beginning at 2.
+    2. Take the first number(which is always prime) and remove all of its multiples from the list. 
+    3. Repeat the process with the next number in the list, which will be the next prime. 
+    4. Continue until you've processed all numbers in the list. 
+
+-- For an infinite sequence, we can apply this principle recursively.
+-}
+primes :: [Int]
+primes = sieve [2..] -- An infinite list of prime numbers starting from 2, generated using sieve function.
+    where
+        sieve (p:xs) = p : sieve [x | x <- xs, x `mod` p /= 0] 
+        -- Recursion: Pattern Matching: (p:xs) splits the list into: 
+        -- p: the first element of the list, which is always prime.
+        -- xs: The rest of the list(candidates for primes). 
+
+    {- x | x <- xs, is [expression | pattern <- list, condition].
+        -- expression: Specifies how to transform each element from the input list. 
+                       The result of this transformation is added to the new list. 
+        -- pattern <- list: Iterates over each element in the input list(list) and binds it to the variable defined in the "pattern". 
+        -- condition(optional): Filters elements that satify a certain condition. Only elements that satisfy the condition are included in the new list. 
+
+        x (before the |): The element to include in the new list. In this case, x is directly added without any transformation.
+        x <- xs: Reads as: "Take each element x from the list xs".
+        This is a generator that iterates over the list xs.  
+
+        [x | x <- xs, x `mod` p /= 0] is a list comprehension that filters out all multiples of p from the list xs.
+        x <- xs iterates over each element x in the list xs. 
+        x mod p /= 0 filters out any x that is a mulitple of p(i.e., where x mod p == 0). 
+    -}
+    
+main :: IO ()
+main = print (take 10 primes)
+
+-}
