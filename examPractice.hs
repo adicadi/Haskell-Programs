@@ -1,4 +1,3 @@
-import qualified Control.Applicative as Evaluation
 -- file TriangleArea
 {-
 area :: (Double, Double, Double) -> Double
@@ -83,4 +82,45 @@ main = do
 
 
 
+
+{-
 --Generate an inifinte list of Hamming numbers. Hamming Numbers
+
+{-
+    They are numbers whose prime factors are limited to 2,3 and 5.
+
+    Each number in the sequence 1,2,3,4,5,6,7,8,9.... can be formed by multiplying a Hamming number by 2, 3 or 5.
+    if x is a Hamming number, then 2*x, 3*x and 5*x are also Hamming numbers.
+
+    the sequence of Hamming numbers starts with 1, and each subsequent Hamming number is the smallest number that can be formed by multiplying a Hamming number by 2, 3 or 5.
+-}
+
+--We need a function to merge three sorted lists while removing duplicates.
+
+merge :: [Int] -> [Int] -> [Int] -> [Int] --merge takes three sorted lists and combines them into one sorted list.
+merge (a:as) (b:bs) (c:cs) = 
+    let m = minimum [a,b,c] -- minimum[a,b,c] picks the smallest element among the three heads.
+    in m : merge (if m == a then as else a:as) -- the smallest element m is added to the result list, the respective list pointer is moved forward, i.e. if m == a, move to as. 
+                    (if m == b then bs else b:bs)
+                    (if m == c then cs else c:cs)
+
+-- Define the sequence of Hamming numbers using lazy evaluation.
+hamming :: [Int]
+hamming = 1 : merge (map (2*) hamming) --Start with the base Hamming number 1, and use map to multiply the Hamming numbers by 2, 3 and 5.
+                    (map (3*) hamming) -- Using map to generate mulitples, Using merge to combine infinite sorted lists.
+                    (map (5*) hamming)
+
+main :: IO ()
+main = do
+    putStrLn "Enter the number of Hamming numbers to display"
+    a <- getLine
+    let n = read a
+    putStrLn $ "The first " ++ show n ++ " Hamming numbers are:" ++ show(take n hamming)
+--main = print (take 10 hamming)
+
+{-
+The sequence starts with 1. 1 generates 2x1 = 2, 3x1 = 3, 5x1 = 5.
+The merge function ensures that the sequence remains sorted and eliminates duplicates.
+-}
+
+-}
