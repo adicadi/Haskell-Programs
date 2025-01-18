@@ -83,7 +83,7 @@ main = do
 
 
 
-{-
+
 --Generate an inifinte list of Hamming numbers. Hamming Numbers
 
 {-
@@ -96,7 +96,7 @@ main = do
 -}
 
 --We need a function to merge three sorted lists while removing duplicates.
-
+{-
 merge :: [Int] -> [Int] -> [Int] -> [Int] --merge takes three sorted lists and combines them into one sorted list.
 merge (a:as) (b:bs) (c:cs) = 
     let m = minimum [a,b,c] -- minimum[a,b,c] picks the smallest element among the three heads.
@@ -126,11 +126,10 @@ The merge function ensures that the sequence remains sorted and eliminates dupli
 -}
 
 
-
 {-
 --The Sieve of Eratosthenes Algorithm. 
 
-{- 
+
 The Sieve of Eratosthenes is an ancient algorithm for finding all prime numbers up to a given limit.
 It works as:
     1. Start with a list of integers beginning at 2.
@@ -140,6 +139,8 @@ It works as:
 
 -- For an infinite sequence, we can apply this principle recursively.
 -}
+
+{-
 primes :: [Int]
 primes = sieve [2..] -- An infinite list of prime numbers starting from 2, generated using sieve function.
     where
@@ -166,4 +167,40 @@ primes = sieve [2..] -- An infinite list of prime numbers starting from 2, gener
 main :: IO ()
 main = print (take 10 primes)
 
+
 -}
+
+
+{-
+--Write a function to compute the square root of a number using the Newton-Raphson method.
+--Newton-Raphson Approximation.
+{-The Newton-Raphson method is an iterative numerical method for finding successively 
+    better approximations to the roots of a real- valued function
+    -}
+
+sqrtApprox :: Double -> Double
+sqrtApprox a = head [x | (x,y) <- zip approximations (tail approximations), abs (x-y) < 1e-8] -- Purpose: Stops the iteration once the difference between successive approximations is less than a small tolerance value(1e-8).
+    -- The list comprehension keeps only pairs where: abs(x-y) < 1e-8, this ensures that the iteration stops when the approximation has converged. 
+    -- head: Extracts the first approximation that meets the convergence condition.
+    where 
+        approximations = iterate (\x -> (x + a/x)/2) (a / 2) 
+        {-  
+            -- Generates an infinite list of approximations for the square root of a using the Newton-Raphson method.
+            1. iterate: Build-in function that takes a function and initial value and returns an infinite list of results by applying the function repeatedly. 
+        -}
+
+        -- Edge Cases: if a < 0, an error message is returned because negative numbers don't have real square roots.
+        -- if a == 0, the square root is 0.    
+
+main :: IO ()
+main =  do --print (sqrtApprox 20) -- The square root of 2 is approximately 1.4142135623730951
+    putStrLn "Enter the number to compute its square root:"
+    a <- getLine
+    let n = read a :: Double
+    if n < 0 
+        then putStrLn "Please enter a positive number"
+    else putStrLn $ "The square root of " ++ show n ++ " is approximately: " ++ show(sqrtApprox n)
+
+-}
+
+
