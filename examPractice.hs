@@ -250,5 +250,4 @@ main = print (scanner "(123, 456)")
 -- Illegal Characters: Grouped into Illegal tokens for invalid sequences. 
 
 
-
 -}
